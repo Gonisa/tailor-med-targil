@@ -19,11 +19,14 @@ class DataExtractor:
         raise NotImplementedError
 
     def _apply_mapping(self, data_name, df):
-        mapping = self._get_data_mapping(data_name)
-        if mapping:
-            df = df.rename(columns=mapping)
-            df = df.filter(list(mapping.values()))
-            return df
+        try:
+            mapping = self._get_data_mapping(data_name)
+            if mapping:
+                df = df.rename(columns=mapping)
+                df = df.filter(list(mapping.values()))
+                return df
+        except Exception as e:
+            logger.error("Failed applying mapping on df chunk.", exc_info=e)
 
     def _get_data_mapping(self, data_name: str):
         data_name = data_name.lower()
@@ -34,7 +37,7 @@ class DataExtractor:
             return response
         except requests.RequestException as e:
             logger.error(f"Could not find mapping. Can't handle {data_name} data", exc_info=e)
-            # Just for testing.
+            # I Didn't have time ot implement the api - so I leave these lines for the program to work, but they need to be deleted.
             return {'hospital_1_patient': {'PatientID': 'patient_id'},
                     'hospital_1_treatment': {'PatientID': 'patient_id', 'StartDate': 'start_date',
                                              'EndDate': 'end_date', 'CyclesXDays': 'number_of_cycles'},
