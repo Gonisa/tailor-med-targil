@@ -10,7 +10,7 @@ class DataExtractor:
     def __init__(self):
         self.pool = Pool()
 
-    # relevant data is data with the correct columns from the mapping, and only with these columns.
+    # Relevant data is data with the correct columns from the mapping, and only with these columns.
     def extract_relevant_data(self, data_name: str):
         df_chunks = self._get_data(data_name)
         return self.pool.imap(lambda df: self._apply_mapping(data_name, df), df_chunks)

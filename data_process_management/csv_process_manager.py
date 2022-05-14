@@ -10,5 +10,4 @@ class CsvProcessManager(DataProcessManager):
     def run_data_process(self, data_name, data_extractor, data_transformer, data_publisher):
         super().run_data_process(data_name, data_extractor, data_transformer, data_publisher)
         # Remove the data from the "hospitals_data" directory after it has been processed.
-        print(f'{configuration.HOSPITALS_DATA_DIRECTORY}/{data_name}')
         os.remove(f'{configuration.HOSPITALS_DATA_DIRECTORY}/{data_name}')
